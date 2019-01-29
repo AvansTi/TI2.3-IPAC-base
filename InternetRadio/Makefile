@@ -11,8 +11,7 @@ INC_DIR = ./include
 
 # NutOS location (includes and libs)
 NUT_INC = c:/$(ETHERNUT_VERSION)/nut/include
-NUT_BUILD_INC = c:/$(ETHERNUT_VERSION)/build/gcc/$(MCU)/lib/include
-NUT_LIB_DIR = c:/$(ETHERNUT_VERSION)/build/gcc/$(MCU)/lib
+NUT_LIB_DIR = c:/$(ETHERNUT_VERSION)/nutbld/lib
 
 # WinAvr includes
 AVR_INC = c:/$(WINAVR_VERSION)/avr/include
