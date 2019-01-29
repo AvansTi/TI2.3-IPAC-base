@@ -1171,38 +1171,38 @@ LOAD c:/winavr-20070525/bin/../lib/gcc/avr/4.1.2/avr6\libgcc.a
  .debug_frame   0x00000780       0xa0 ./src/flash.o
  .debug_frame   0x00000820       0xe0 ./src/rtc.o
 
-.debug_str      0x00000000     0x200f
+.debug_str      0x00000000     0x2001
  *(.debug_str)
- .debug_str     0x00000000      0x1a8 ./src/main.o
-                                0x1f9 (size before relaxing)
- .debug_str     0x000001a8      0x180 ./src/uart0driver.o
-                                0x2cd (size before relaxing)
- .debug_str     0x00000328      0x104 ./src/log.o
-                                0x25d (size before relaxing)
- .debug_str     0x0000042c       0x3c ./src/led.o
-                                0x167 (size before relaxing)
- .debug_str     0x00000468      0x170 ./src/keyboard.o
-                                0x2c5 (size before relaxing)
- .debug_str     0x000005d8       0x88 ./src/display.o
-                                0x1bd (size before relaxing)
- .debug_str     0x00000660      0x1db ./src/vs10xx.o
-                                0x355 (size before relaxing)
- .debug_str     0x0000083b       0x45 ./src/remcon.o
-                                0x1a3 (size before relaxing)
- .debug_str     0x00000880       0x82 ./src/watchdog.o
-                                0x1a6 (size before relaxing)
- .debug_str     0x00000902      0x83b ./src/mmc.o
-                                0xa5d (size before relaxing)
- .debug_str     0x0000113d       0xb5 ./src/spidrv.o
-                                0x1ec (size before relaxing)
- .debug_str     0x000011f2      0x27d ./src/mmcdrv.o
-                                0x3d2 (size before relaxing)
- .debug_str     0x0000146f      0x956 ./src/fat.o
-                                0xc5e (size before relaxing)
- .debug_str     0x00001dc5      0x15b ./src/flash.o
-                                0x2af (size before relaxing)
- .debug_str     0x00001f20       0xef ./src/rtc.o
-                                0x27e (size before relaxing)
+ .debug_str     0x00000000      0x19a ./src/main.o
+                                0x1eb (size before relaxing)
+ .debug_str     0x0000019a      0x180 ./src/uart0driver.o
+                                0x2bf (size before relaxing)
+ .debug_str     0x0000031a      0x104 ./src/log.o
+                                0x24f (size before relaxing)
+ .debug_str     0x0000041e       0x3c ./src/led.o
+                                0x159 (size before relaxing)
+ .debug_str     0x0000045a      0x170 ./src/keyboard.o
+                                0x2b7 (size before relaxing)
+ .debug_str     0x000005ca       0x88 ./src/display.o
+                                0x1af (size before relaxing)
+ .debug_str     0x00000652      0x1db ./src/vs10xx.o
+                                0x347 (size before relaxing)
+ .debug_str     0x0000082d       0x45 ./src/remcon.o
+                                0x195 (size before relaxing)
+ .debug_str     0x00000872       0x82 ./src/watchdog.o
+                                0x198 (size before relaxing)
+ .debug_str     0x000008f4      0x83b ./src/mmc.o
+                                0xa4f (size before relaxing)
+ .debug_str     0x0000112f       0xb5 ./src/spidrv.o
+                                0x1de (size before relaxing)
+ .debug_str     0x000011e4      0x27d ./src/mmcdrv.o
+                                0x3c4 (size before relaxing)
+ .debug_str     0x00001461      0x956 ./src/fat.o
+                                0xc50 (size before relaxing)
+ .debug_str     0x00001db7      0x15b ./src/flash.o
+                                0x2a1 (size before relaxing)
+ .debug_str     0x00001f12       0xef ./src/rtc.o
+                                0x270 (size before relaxing)
 
 .debug_loc      0x00000000     0x2bdd
  *(.debug_loc)
@@ -1221,38 +1221,38 @@ LOAD c:/winavr-20070525/bin/../lib/gcc/avr/4.1.2/avr6\libgcc.a
  .debug_loc     0x000021b6      0x47c ./src/flash.o
  .debug_loc     0x00002632      0x5ab ./src/rtc.o
 
-.debug_macinfo  0x00000000    0x8f330
+.debug_macinfo  0x00000000    0x8f3c6
  *(.debug_macinfo)
  .debug_macinfo
-                0x00000000     0xa515 ./src/main.o
+                0x00000000     0xa51f ./src/main.o
  .debug_macinfo
-                0x0000a515     0x9940 ./src/uart0driver.o
+                0x0000a51f     0x994a ./src/uart0driver.o
  .debug_macinfo
-                0x00013e55     0x8dda ./src/log.o
+                0x00013e69     0x8de4 ./src/log.o
  .debug_macinfo
-                0x0001cc2f     0x8a8e ./src/led.o
+                0x0001cc4d     0x8a98 ./src/led.o
  .debug_macinfo
-                0x000256bd     0x8f3e ./src/keyboard.o
+                0x000256e5     0x8f48 ./src/keyboard.o
  .debug_macinfo
-                0x0002e5fb     0x94a7 ./src/display.o
+                0x0002e62d     0x94b1 ./src/display.o
  .debug_macinfo
-                0x00037aa2     0xa97e ./src/vs10xx.o
+                0x00037ade     0xa988 ./src/vs10xx.o
  .debug_macinfo
-                0x00042420     0x957e ./src/remcon.o
+                0x00042466     0x9588 ./src/remcon.o
  .debug_macinfo
-                0x0004b99e     0x8681 ./src/watchdog.o
+                0x0004b9ee     0x868b ./src/watchdog.o
  .debug_macinfo
-                0x0005401f     0xb2fb ./src/mmc.o
+                0x00054079     0xb305 ./src/mmc.o
  .debug_macinfo
-                0x0005f31a     0x9d70 ./src/spidrv.o
+                0x0005f37e     0x9d7a ./src/spidrv.o
  .debug_macinfo
-                0x0006908a     0xa1e0 ./src/mmcdrv.o
+                0x000690f8     0xa1ea ./src/mmcdrv.o
  .debug_macinfo
-                0x0007326a     0x9df5 ./src/fat.o
+                0x000732e2     0x9dff ./src/fat.o
  .debug_macinfo
-                0x0007d05f     0x907f ./src/flash.o
+                0x0007d0e1     0x9089 ./src/flash.o
  .debug_macinfo
-                0x000860de     0x9252 ./src/rtc.o
+                0x0008616a     0x925c ./src/rtc.o
 OUTPUT(InternetRadio.elf elf32-avr)
 LOAD linker stubs
 

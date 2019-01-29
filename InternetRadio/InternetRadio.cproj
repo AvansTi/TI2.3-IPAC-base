@@ -95,6 +95,12 @@
         </avrgcc.assembler.general.IncludePaths>
       </AvrGcc>
     </ToolchainSettings>
+    <UsesExternalMakeFile>True</UsesExternalMakeFile>
+    <OutputDirectory>
+    </OutputDirectory>
+    <BuildTarget>all</BuildTarget>
+    <CleanTarget>clean</CleanTarget>
+    <ExternalMakeFilePath>Makefile</ExternalMakeFilePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
@@ -160,10 +166,11 @@
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputType>Executable</OutputType>
     <UsesExternalMakeFile>True</UsesExternalMakeFile>
-    <OutputDirectory>G:\WORK\Avans\2018-2019\TI2.3\Proftaak\Atmel Experiment\InternetRadio\InternetRadio</OutputDirectory>
-    <BuildTarget>all</BuildTarget>
+    <OutputDirectory>
+    </OutputDirectory>
+    <BuildTarget>debug</BuildTarget>
     <CleanTarget>clean</CleanTarget>
-    <ExternalMakeFilePath>G:\WORK\Avans\2018-2019\TI2.3\Proftaak\Atmel Experiment\InternetRadio\InternetRadio\Makefile</ExternalMakeFilePath>
+    <ExternalMakeFilePath>Makefile</ExternalMakeFilePath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="include\display.h">

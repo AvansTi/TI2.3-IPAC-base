@@ -8,3 +8,5 @@ InternetRadio/Debug/
 *.o
 
 *.lst
+
+InternetRadio/TIStreamer\.map

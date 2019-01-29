@@ -1,27 +1,32 @@
 TARGET	= InternetRadio
 
+ETHERNUT_VERSION = ethernut-4.3.3
+WINAVR_VERSION = WinAVR-20070525
+MCU = atmega2561
+
+
 # Application source en include includes
 SRC_DIR	= ./src
 INC_DIR = ./include
 
 # NutOS location (includes and libs)
-NUT_INC = c:/ethernut-4.3.3/nut/include
-NUT_BUILD_INC = c:/ethernut-4.3.3/build/gcc/atmega2561/lib/include
-NUT_LIB_DIR = c:/ethernut-4.3.3/build/gcc/atmega2561/lib
+NUT_INC = c:/$(ETHERNUT_VERSION)/nut/include
+NUT_BUILD_INC = c:/$(ETHERNUT_VERSION)/build/gcc/$(MCU)/lib/include
+NUT_LIB_DIR = c:/$(ETHERNUT_VERSION)/build/gcc/$(MCU)/lib
 
 # WinAvr includes
-AVR_INC = c:/WinAVR-20070525/avr/include
-AVR_BIN = C:/WinAVR-20070525/bin
-AVR_UTIL_BIN = C:/WinAVR-20070525/utils/bin
+AVR_INC = c:/$(WINAVR_VERSION)/avr/include
+AVR_BIN = C:/$(WINAVR_VERSION)/bin
+AVR_UTIL_BIN = C:/$(WINAVR_VERSION)/utils/bin
 
 
 # Compiler, assembler & linker (flags)
 CC		= 	$(AVR_BIN)/avr-gcc
-CFLAGS	= 	-mmcu=atmega2561 -Os -Wall -g3 -Wstrict-prototypes -DNUT_CPU_FREQ=14745600 \
+CFLAGS	= 	-mmcu=$(MCU) -Os -Wall -Wstrict-prototypes -DNUT_CPU_FREQ=14745600 \
 			-D__HARVARD_ARCH__ -DNUTOS_VERSION=433 \
 			-Wa,-ahlms=$(SRC_DIR)/$*lst
-ASFLAGS = 	-mmcu=atmega2561 -I. -x assembler-with-cpp -Wa,-ahlms=$(SRC_DIR)/$*lst,-gstabs 
-LDFLAGS	=	-mmcu=atmega2561 -Wl,--defsym=main=0,-Map=TIStreamer.map,--cref
+ASFLAGS = 	-mmcu=$(MCU) -I. -x assembler-with-cpp -Wa,-ahlms=$(SRC_DIR)/$*lst,-gstabs 
+LDFLAGS	=	-mmcu=$(MCU) -Wl,--defsym=main=0,-Map=TIStreamer.map,--cref
 
 
 # =================================================================================
@@ -82,15 +87,13 @@ $(SRC_DIR)/%o:	$(SRC_DIR)/%c
 all: $(TARGET)
 
 
-debug:
-	
-	@echo $(OBJS)
-
+debug: CFLAGS += -DDEBUG -g3
+debug: $(TARGET)
 
 .PHONY: clean
 clean:
-	-rm -f $(OBJS)
-	-rm -f $(SRCS:.c=.lst)
-	-rm -f *.hex *.elf *.map *.bin
+	rm -f $(OBJS)
+	rm -f $(SRCS:.c=.lst)
+	del /F *.hex *.elf
 
 
