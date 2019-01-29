@@ -1,0 +1,10 @@
+
+InternetRadio/Debug/
+
+*.elf
+
+*.hex
+
+*.o
+
+*.lst
