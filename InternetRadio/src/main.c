@@ -17,7 +17,7 @@
  
 
 #define LOG_MODULE  LOG_MAIN_MODULE
-#define USE_JTAG 1
+#define USE_JTAG 0
 
 /*--------------------------------------------------------------------------*/
 /*  Include files                                                           */
@@ -44,7 +44,8 @@
 #include "spidrv.h"
 
 #include <time.h>
-#include "rtc.h"
+//#include "rtc.h"
+#include "x1205.h"
 
 
 /*-------------------------------------------------------------------------*/
@@ -197,6 +198,43 @@ static void SysControlMainBeat(u_char OnOff)
     }
 }
 
+/*
+ * Show current time in x1205 RTC
+ */
+static void ShowX1205DateTime()
+{
+	u_char buf[10]; // Buffer to hold data returned by x1205 RTC
+	// Read from register 0x30 (RTC SC) 3 bytes: Seconds, Minutes, Hours
+	// See X1205 datasheet Clock/Control Memory Map (page 10)
+	x1205ReadNByte(0x30, buf, 8);
+	LogMsg_P(LOG_DEBUG, PSTR("Time in x1205 RTC is [%02d:%02d:%02d]"),
+		BCD2DEC(buf[2] & 0x7F), BCD2DEC(buf[1] & 0x7F), BCD2DEC(buf[0] & 0x7F));
+	LogMsg_P(LOG_DEBUG, PSTR("Date in x1205 RTC is [%02d.%02d %02d-%02d-%02d]"),
+		BCD2DEC(buf[7] & 0x7F), BCD2DEC(buf[6] & 0x7F),
+		BCD2DEC(buf[5] & 0x7F), BCD2DEC(buf[4] & 0x7F), BCD2DEC(buf[3] & 0x7F));
+}
+
+/*
+ * Set current time in x1205 RTC
+ */
+static void SetX1205Time(int Y2K, int DW, int YR, int MO, int DT, int HR, int MN, int SC)
+{
+	u_char buffer[10]; // Buffer to assemble data in for sending to x1205 RTC
+	buffer[0] = DEC2BCD(SC); // Seconds
+	buffer[1] = DEC2BCD(MN); // Minutes
+	buffer[2] = DEC2BCD(HR); // Hours
+	buffer[3] = DEC2BCD(DT); // Date
+	buffer[4] = DEC2BCD(MO); // Month
+	buffer[5] = DEC2BCD(YR); // Year (00 - 99)
+	buffer[6] = DEC2BCD(DW); // Day of Week (0 - 6)
+	buffer[7] = DEC2BCD(Y2K); // Year 2K
+	// Send to register 0x30 (RTC SC) and beyond 8 bytes:
+	// Seconds, Minutes, Hours, Date, Month, Year, Day of Week, Year 2K
+	// See X1205 datasheet Clock/Control Memory Map (page 10)
+	x1205WriteNBytes(0x30, buffer, 8);
+	NutSleep(100);
+}
+
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 /*!
  * \brief Main entry of the SIR firmware
@@ -245,6 +283,7 @@ int main(void)
 
     CardInit();
 
+#if 0
 	/*
 	 * Kroeske: sources in rtc.c en rtc.h
 	 */
@@ -253,6 +292,19 @@ int main(void)
     {
 		LogMsg_P(LOG_INFO, PSTR("RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
     }
+#endif
+
+	// [LiHa] Experiment with our own x1205 read and write routines
+	x1205Init();
+	NutSleep(100);
+	// [LiHa] Show the current time in the RTC
+	ShowX1205DateTime();
+	// [LiHa] Enable writing to the x1205 RTC, see datasheet
+	x1205Enable();
+	// [LiHa] Set time in the RTC: 2019-02-07 10:11:12 (let's say that Thursday = 3)
+	SetX1205Time(20, 3, 19, 2, 7, 10, 11, 12);
+	// [LiHa] Show current time again
+	ShowX1205DateTime();
 
 
     if (At45dbInit()==AT45DB041B)
@@ -280,7 +332,10 @@ int main(void)
         NutSleep(100);
 		if( !((t++)%15) )
 		{
-			LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
+			// [LiHa] Show the current time, should be updating
+			ShowX1205DateTime();
+			
+			//LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
 			
 			LedControl(LED_TOGGLE);
 		
