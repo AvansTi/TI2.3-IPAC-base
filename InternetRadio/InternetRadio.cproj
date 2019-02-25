@@ -26,36 +26,36 @@
     <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
-    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <eraseonlaunchrule>7</eraseonlaunchrule>
     <EraseKey />
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
+      <framework-data>
         <options />
         <configurations />
         <files />
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.44.1" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.34.1" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
-    <avrtoolserialnumber>J41800088557</avrtoolserialnumber>
+    <avrtoolserialnumber>J41800083955</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9802</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
-          <JtagDbgClock>1000000</JtagDbgClock>
+          <JtagDbgClock>200000</JtagDbgClock>
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
-      <ToolNumber>J41800088557</ToolNumber>
+      <ToolNumber>J41800083955</ToolNumber>
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
-    <avrtoolinterfaceclock>1000000</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>200000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -230,6 +230,9 @@
     <Compile Include="include\watchdog.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\x1205.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\display.c">
       <SubType>compile</SubType>
     </Compile>
@@ -275,9 +278,6 @@
     <Compile Include="src\spidrv.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\uart0driver - Copy.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\uart0driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -288,6 +288,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\watchdog.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\x1205.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
