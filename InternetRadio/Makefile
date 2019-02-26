@@ -46,7 +46,8 @@ CFILES =        main.c			\
 				flash.c			\
 				rtc.c			\
 				player.c		\
-				shoutcast.c
+				shoutcast.c		\
+				userdata.c
 			
 				
 # Header files.
@@ -62,7 +63,7 @@ HFILES =        display.h        keyboard.h              \
                 flash.h          spidrv.h         command.h      \
                 parse.h          mmcdrv.h         fat.h          \
                 fatdrv.h         flash.h	  	rtc.h			\
-				player.h		shoutcast.h
+				player.h		shoutcast.h		userdata.h
 
 
 # Alle source files in de ./source dir

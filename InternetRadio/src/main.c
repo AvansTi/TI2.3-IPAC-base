@@ -30,6 +30,9 @@
 #include <sys/version.h>
 #include <dev/irqreg.h>
 
+#include <arpa/inet.h> /* [LiHa] For inet_addr() */
+#include <pro/sntp.h> /* [LiHa] For NTP */
+
 #include "system.h"
 #include "portio.h"
 #include "display.h"
@@ -47,6 +50,39 @@
 #include <time.h>
 #include "rtc.h"
 
+#include "userdata.h"
+
+/* Some dummy user data for testing the persistent data storage */
+static USERDATA_STRUCT streams[] = {
+	/* First data set: */
+	// {
+	// "Loungemain Jazz-Chill-Funk",
+	// "http://80.101.35.49",
+	// 8000,
+	// 1010
+	// },
+	// {
+	// "METAL ONLY - www.metal-only.de",
+	// "http://62.138.229.187",
+	// 6666,
+	// 2020
+	// }
+	
+	/* Alternative data set (uncomment one or the other): */
+	{
+		"Radio 1: nieuws elk uur",
+		"http://radio1.stream/",
+		1234,
+		2020
+	},
+	{
+		"XFM, hitradio",
+		"http://212.121.111.99/uberstream/",
+		4321,
+		4040
+	}
+};
+
 
 /*-------------------------------------------------------------------------*/
 /* global variable definitions                                             */
@@ -62,6 +98,8 @@
 /*-------------------------------------------------------------------------*/
 static void SysMainBeatInterrupt(void*);
 static void SysControlMainBeat(u_char);
+
+static void showUserData(USERDATA_STRUCT *streams, int len);
 
 /*-------------------------------------------------------------------------*/
 /* Stack check variables placed in .noinit section                         */
@@ -224,6 +262,11 @@ int main(void)
 	 * Kroeske: Ook kan 'struct _tm gmt' Zie bovenstaande link
 	 */
 	
+	/* [LiHa] NTP server */
+	time_t ntp_time;
+	tm *ntp_datetime;
+	uint32_t timeserver = 0;
+	
     /*
      *  First disable the watchdog
      */
@@ -290,6 +333,50 @@ int main(void)
 		LogMsg_P(LOG_ERR, PSTR("initInet() = NOK, NO network!"));
 	}
 
+	/* Retrieve NTP time */
+	/* [LiHa] Bron: http://www.ethernut.de/nutwiki/index.php/Network_Time_Protocol */
+	printf("\nRetrieving time from pool.ntp.org...");
+	_timezone = -1 * 60 * 60; /* GMT -1 hour */
+	timeserver = inet_addr("91.148.192.49"); /* [LiHa] IP address may change frequently (it's a pool afterall) */
+	if (NutSNTPGetTime(&timeserver, &ntp_time) != 0) {
+		printf("Failed to retrieve time\n");
+		} else {
+		ntp_datetime = localtime(&ntp_time);
+		printf("NTP time is: %02d:%02d:%02d\n", ntp_datetime->tm_hour, ntp_datetime->tm_min, ntp_datetime->tm_sec);
+	}
+
+	/* Show the user data that we're going to save to data flash */
+	printf("\nUser data content: \n");
+	showUserData(streams, sizeof(streams)/sizeof(streams[0]));
+	/* Show what the data flash page for the user data currently contains */
+	printf("\nFlash page 0x04 content: \n");
+	showPage(0x04); // Attention, hardcoded page number
+	
+	/* Now save the user data to data flash */
+	if( OK == savePersistent( (USERDATA_STRUCT *)streams, sizeof(streams)) )
+	{
+		printf("\nFlash page 0x04 content: \n");
+		NutSleep(100);
+		showPage(0x04); // Attention, hardcoded page number
+		NutSleep(100);
+		
+		/* Trash userdata */
+		strcpy(streams[0].desc,"trash - trash - trash");
+		streams[1].volume = 0x0102;
+		printf("\nTrashed user data: \n");
+		showUserData(streams, sizeof(streams)/sizeof(streams[0]));
+
+		/* Restore user data from data flash */
+		openPersistent( (USERDATA_STRUCT *)streams, sizeof(streams) );
+	}
+	else
+	{
+		printf("Error saving persistent data");
+	}
+	/* Show restored user data retrieved from data flash */
+	printf("\nRestored user data: \n");
+	showUserData(streams, sizeof(streams)/sizeof(streams[0]));
+
 	if( OK == connectToStream() )
 	{
 		playStream();
@@ -312,6 +399,23 @@ int main(void)
 
     return(0);      // never reached, but 'main()' returns a non-void, so.....
 }
+
+
+/* Local utility function for testing the persistent data storage */
+static void showUserData(USERDATA_STRUCT *streams, int len)
+{
+	int idx = 0 ;
+
+	for( idx = 0; idx < len; idx++ )
+	{
+		printf("\nstreams[%d].desc = %s\n", idx, streams[idx].desc);
+		printf("streams[%d].url = %s\n", idx, streams[idx].url);
+		printf("streams[%d].port = %d\n", idx, streams[idx].port);
+		printf("streams[%d].volume = %d\n\n", idx, streams[idx].volume);
+	}
+}
+
+
 /* ---------- end of module ------------------------------------------------ */
 
 /*@}*/
