@@ -97,6 +97,8 @@ typedef u_char TLogLevel;
 #define LOG_VS10XX_MODULE       0xD8
 #define LOG_WATCHDOG_MODULE     0xE8
 
+#define LOG_SHOUTCAST_MODULE    0x0C
+
 // note that LOG_MODULE must be defined before including this "log.h"
 #define LOG_EMERG       (TLogLevel)(LOG_EMERG_LEV   | LOG_MODULE)
 #define LOG_ALERT       (TLogLevel)(LOG_ALERT_LEV   | LOG_MODULE)

@@ -42,6 +42,7 @@
 #include "watchdog.h"
 #include "flash.h"
 #include "spidrv.h"
+#include "shoutcast.h"
 
 #include <time.h>
 #include "rtc.h"
@@ -212,7 +213,7 @@ static void SysControlMainBeat(u_char OnOff)
 int main(void)
 {
 	int t = 0;
-	int x = 0;
+	//int x = 0;
 	
 	/* 
 	 * Kroeske: time struct uit nut/os time.h (http://www.ethernut.de/api/time_8h-source.html)
@@ -275,29 +276,39 @@ int main(void)
 	/* Enable global interrupts */
 	sei();
 	
+	LcdBackLight(LCD_BACKLIGHT_ON);
+	char message[] = "Streaming";
+	char *pmsg = message;
+	while (*pmsg != 0) {
+		LcdChar(*pmsg);
+		pmsg += 1;
+	}
+	
+	/* Init network adapter */
+	if( OK != initInet() )
+	{
+		LogMsg_P(LOG_ERR, PSTR("initInet() = NOK, NO network!"));
+	}
+
+	if( OK == connectToStream() )
+	{
+		playStream();
+	}
+	
     for (;;)
     {
         NutSleep(100);
 		if( !((t++)%15) )
 		{
-			LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
+			//LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
 			
 			LedControl(LED_TOGGLE);
-		
-			if( x )
-			{
-				LcdBackLight(LCD_BACKLIGHT_ON);
-				x = 0;
-			}
-			else
-			{
-				LcdBackLight(LCD_BACKLIGHT_OFF);
-				x = 1;
-			}
 		}
 		
         WatchDogRestart();
     }
+	
+	stopStream();
 
     return(0);      // never reached, but 'main()' returns a non-void, so.....
 }
